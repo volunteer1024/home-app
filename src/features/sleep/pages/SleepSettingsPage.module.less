@@ -1,0 +1,50 @@
+.page {
+  display: grid;
+  gap: 18px;
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.buttonGrid {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.sliderHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 16px;
+}
+
+.sliderHeader span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-soft);
+}
+
+.notice,
+.ready {
+  padding: 14px 16px;
+  border-radius: 20px;
+  background: var(--action-secondary);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.ready {
+  background: var(--success-soft);
+}
+
+@media (min-width: 640px) {
+  .buttonGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

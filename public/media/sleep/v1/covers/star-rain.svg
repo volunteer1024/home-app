@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="g2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#d9e7f7"/>
+      <stop offset="100%" stop-color="#a9c0db"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="52" fill="url(#g2)"/>
+  <circle cx="166" cy="140" r="8" fill="#fff"/>
+  <circle cx="220" cy="104" r="6" fill="#fff"/>
+  <circle cx="272" cy="144" r="7" fill="#fff"/>
+  <circle cx="332" cy="122" r="6" fill="#fff"/>
+  <path d="M154 280c18 0 32 14 32 32 0 18-14 32-32 32-18 0-32-14-32-32 0-18 14-32 32-32zm102-18c24 0 42 18 42 42s-18 42-42 42-42-18-42-42 18-42 42-42zm110 10c30 0 54 24 54 54s-24 54-54 54H170" fill="#f7fbff" opacity=".9"/>
+  <text x="256" y="430" text-anchor="middle" fill="#35506b" font-size="44" font-family="PingFang SC, Microsoft YaHei, sans-serif">星星细雨</text>
+</svg>

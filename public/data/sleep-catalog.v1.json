@@ -1,0 +1,35 @@
+{
+  "catalogVersion": "v1",
+  "songs": [
+    {
+      "id": "moon-river",
+      "title": "月光轻摇",
+      "src": "/media/sleep/v1/songs/moon-river.wav",
+      "cover": "/media/sleep/v1/covers/moon-river.svg",
+      "durationSec": 3,
+      "tags": ["轻柔", "入睡"],
+      "aliases": ["轻摇"],
+      "order": 1
+    },
+    {
+      "id": "star-rain",
+      "title": "星星细雨",
+      "src": "/media/sleep/v1/songs/star-rain.wav",
+      "cover": "/media/sleep/v1/covers/star-rain.svg",
+      "durationSec": 3,
+      "tags": ["白噪音", "夜晚"],
+      "aliases": ["细雨"],
+      "order": 2
+    },
+    {
+      "id": "forest-hum",
+      "title": "林间摇篮",
+      "src": "/media/sleep/v1/songs/forest-hum.wav",
+      "cover": "/media/sleep/v1/covers/forest-hum.svg",
+      "durationSec": 3,
+      "tags": ["安静", "自然"],
+      "aliases": ["摇篮"],
+      "order": 3
+    }
+  ]
+}

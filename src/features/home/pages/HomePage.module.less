@@ -1,0 +1,70 @@
+.page {
+  max-width: var(--content-width);
+  margin: 0 auto;
+  padding: 32px 20px 48px;
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 32px 0 28px;
+}
+
+.heroTop {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.heroBadge {
+  display: inline-flex;
+  width: fit-content;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: var(--action-secondary);
+  color: var(--text-soft);
+  font-size: 16px;
+}
+
+.themeButton {
+  width: 100%;
+}
+
+.title {
+  font-size: clamp(32px, 5vw, 48px);
+  line-height: 1.12;
+}
+
+.description {
+  max-width: 720px;
+  font-size: 18px;
+  line-height: 1.75;
+  color: var(--text-soft);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 18px;
+}
+
+@media (min-width: 960px) {
+  .page {
+    padding: 40px 28px 56px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .heroTop {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .themeButton {
+    width: auto;
+  }
+}

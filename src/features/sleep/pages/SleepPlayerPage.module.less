@@ -1,0 +1,111 @@
+.page {
+  display: grid;
+  gap: 20px;
+}
+
+.heroCard {
+  overflow: hidden;
+}
+
+.heroHeader {
+  display: grid;
+  gap: 20px;
+}
+
+.coverWrap {
+  width: 100%;
+}
+
+.cover,
+.coverPlaceholder {
+  width: min(100%, 360px);
+  aspect-ratio: 1 / 1;
+  border-radius: 28px;
+  background: var(--surface-muted);
+}
+
+.coverPlaceholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-soft);
+}
+
+.meta {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.eyebrow {
+  font-size: 16px;
+  color: var(--text-soft);
+}
+
+.statusRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.statusBadge,
+.timerBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: var(--action-secondary);
+  font-size: 16px;
+}
+
+.timerBadge {
+  background: var(--success-soft);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.progressBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.progressHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 16px;
+  color: var(--text-soft);
+}
+
+.extraActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.info {
+  font-size: 16px;
+  color: var(--text-soft);
+}
+
+.error {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  color: #a14a3f;
+}
+
+@media (min-width: 960px) {
+  .heroHeader {
+    grid-template-columns: minmax(280px, 360px) 1fr;
+    align-items: center;
+  }
+}

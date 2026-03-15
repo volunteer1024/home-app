@@ -1,0 +1,42 @@
+.page {
+  display: grid;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.searchWrap {
+  position: relative;
+  display: block;
+}
+
+.searchIcon {
+  position: absolute;
+  top: 50%;
+  left: 16px;
+  z-index: 1;
+  display: inline-flex;
+  color: var(--text-soft);
+  transform: translateY(-50%);
+}
+
+.searchWrap :global(input) {
+  padding-left: 48px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.empty {
+  padding: 18px;
+  border-radius: 22px;
+  background: var(--surface-base);
+  font-size: 16px;
+  color: var(--text-soft);
+}

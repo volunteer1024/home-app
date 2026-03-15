@@ -1,0 +1,55 @@
+.item {
+  display: flex;
+  width: 100%;
+  min-height: 64px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 16px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 22px;
+  background: var(--surface-base);
+  color: var(--text-strong);
+  text-align: left;
+}
+
+.active {
+  border-color: var(--border-strong);
+  background: var(--success-soft);
+}
+
+.info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.iconWrap {
+  display: inline-flex;
+  height: 40px;
+  width: 40px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  background: var(--action-secondary);
+}
+
+.texts {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.texts strong {
+  font-size: 18px;
+}
+
+.texts span {
+  font-size: 16px;
+  color: var(--text-soft);
+}
+
+.badge {
+  font-size: 16px;
+  color: var(--text-soft);
+}
