@@ -1,4 +1,4 @@
-import { MoonStar, Music4, ReceiptText, SunMedium } from 'lucide-react'
+import { MoonStar, Music4, SunMedium } from 'lucide-react'
 
 import { FeatureEntryCard } from '@/features/home/components/FeatureEntryCard'
 import { usePlayerStore } from '@/features/sleep/stores/usePlayerStore'
@@ -44,6 +44,8 @@ export function HomePage() {
           secondaryActionHref={currentSongId ? '/sleep/player' : undefined}
         />
 
+        {/*
+          发票功能暂时下线，首页入口先注释保留，后续恢复时可直接打开。
         <FeatureEntryCard
           icon={<ReceiptText size={28} strokeWidth={2.25} />}
           title={zhCN.home.invoiceTitle}
@@ -52,6 +54,7 @@ export function HomePage() {
           actionLabel={zhCN.home.invoiceAction}
           badge={zhCN.home.invoiceComingSoon}
         />
+        */}
       </section>
     </main>
   )

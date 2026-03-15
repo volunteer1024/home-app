@@ -9,7 +9,11 @@ const manifestEntries =
     (self as unknown as ServiceWorkerGlobalScope & { __WB_MANIFEST?: Array<{ url: string }> }).__WB_MANIFEST || []
   ) as Array<{ url: string }>
 
-const APP_SHELL_CACHE = 'app-shell-v1'
+const APP_SHELL_CACHE = 'app-shell-v2'
+
+function getAppShellUrl(path: string) {
+  return new URL(path, sw.registration.scope).toString()
+}
 
 sw.addEventListener('install', (event: ExtendableEvent) => {
   event.waitUntil(
@@ -37,8 +41,8 @@ sw.addEventListener('fetch', (event: FetchEvent) => {
     event.respondWith(
       fetch(request).catch(async () => {
         const cache = await caches.open(APP_SHELL_CACHE)
-        const cachedResponse = await cache.match('/index.html')
-        return cachedResponse ?? Response.redirect('/', 302)
+        const cachedResponse = await cache.match(getAppShellUrl('index.html'))
+        return cachedResponse ?? Response.redirect(getAppShellUrl(''), 302)
       }),
     )
     return
