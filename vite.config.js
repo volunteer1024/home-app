@@ -5,6 +5,7 @@ import { tanstackRouter } from '@tanstack/router-plugin/vite';
 import { defineConfig } from 'vitest/config';
 import { VitePWA } from 'vite-plugin-pwa';
 export default defineConfig({
+    base: process.env.GITHUB_PAGES === 'true' ? process.env.GITHUB_PAGES_BASE_PATH || '/' : '/',
     plugins: [
         tanstackRouter({
             target: 'react',

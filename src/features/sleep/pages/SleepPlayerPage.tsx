@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { AlertCircle, Disc3, Music4 } from 'lucide-react'
+import { AlertCircle, Disc3 } from 'lucide-react'
 
 import { PlaybackControls } from '@/features/sleep/components/PlaybackControls'
 import { TimerDialog } from '@/features/sleep/components/TimerDialog'
@@ -44,6 +44,7 @@ export function SleepPlayerPage() {
 
   const isPlaying = status === 'playing'
   const canControl = Boolean(currentSong)
+  const coverPlaceholderLabel = currentSong ? currentSong.title.slice(0, 4) : '暂无封面'
 
   const handlePlayPause = async () => {
     if (!currentSong) {
@@ -72,7 +73,8 @@ export function SleepPlayerPage() {
               <img className={styles.cover} src={currentSong.cover} alt={currentSong.title} />
             ) : (
               <div className={styles.coverPlaceholder}>
-                <Music4 size={36} />
+                <strong className={styles.coverPlaceholderTitle}>{coverPlaceholderLabel}</strong>
+                <span className={styles.coverPlaceholderHint}>哄睡歌曲</span>
               </div>
             )}
           </div>
