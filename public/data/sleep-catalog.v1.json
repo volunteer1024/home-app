@@ -30,6 +30,15 @@
       "tags": ["安静", "自然"],
       "aliases": ["摇篮"],
       "order": 3
+    },
+    {
+      "id": "mama-love",
+      "title": "世上只有妈妈好",
+      "src": "/media/sleep/v1/songs/mama-love.mp3",
+      "durationSec": 133,
+      "tags": ["儿歌", "亲子"],
+      "aliases": ["妈妈好", "贝乐虎"],
+      "order": 4
     }
   ]
 }
