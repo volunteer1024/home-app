@@ -54,6 +54,11 @@ const playerState = {
   setPlaybackMode: mocks.setPlaybackMode,
 }
 
+const settingsState = {
+  themeMode: 'auto',
+  setThemeMode: mocks.setThemeMode,
+}
+
 vi.mock('@tanstack/react-router', () => ({
   Link: ({ children, to, ...props }: { children: React.ReactNode; to: string }) => (
     <a href={to} {...props}>
@@ -72,9 +77,7 @@ vi.mock('@/features/sleep/stores/usePlayerStore', () => ({
 }))
 
 vi.mock('@/features/sleep/stores/useSettingsStore', () => ({
-  useSettingsStore: <T,>(
-    selector: (state: { themeMode: string; setThemeMode: typeof mocks.setThemeMode }) => T,
-  ) => selector({ themeMode: 'light', setThemeMode: mocks.setThemeMode }),
+  useSettingsStore: <T,>(selector: (state: typeof settingsState) => T) => selector(settingsState),
 }))
 
 import { SleepListPage } from './SleepListPage'
@@ -96,6 +99,7 @@ describe('SleepListPage', () => {
     playerState.playbackMode = 'shuffle'
     playerState.errorMessage = ''
     catalogState.searchKeyword = ''
+    settingsState.themeMode = 'auto'
     mocks.navigate.mockReset()
     mocks.pause.mockReset()
     mocks.playSong.mockReset()
@@ -103,6 +107,7 @@ describe('SleepListPage', () => {
     mocks.playNext.mockReset()
     mocks.resumeCurrent.mockReset()
     mocks.setPlaybackMode.mockReset()
+    mocks.setThemeMode.mockReset()
   })
 
   afterEach(cleanup)
@@ -247,5 +252,24 @@ describe('SleepListPage', () => {
     await user.click(screen.getByRole('button', { name: '当前模式：顺序播放。点击切换到随机' }))
 
     expect(mocks.setPlaybackMode).toHaveBeenLastCalledWith('shuffle')
+  })
+
+  it('cycles the theme mode through automatic, light, and dark modes', async () => {
+    const user = userEvent.setup()
+    mocks.setThemeMode.mockImplementation((mode) => {
+      settingsState.themeMode = mode
+    })
+
+    const view = render(<SleepListPage />)
+    await user.click(screen.getByRole('button', { name: '当前主题：跟随系统。点击切换到白天模式' }))
+    expect(mocks.setThemeMode).toHaveBeenCalledWith('light')
+
+    view.rerender(<SleepListPage />)
+    await user.click(screen.getByRole('button', { name: '当前主题：白天模式。点击切换到夜间模式' }))
+    expect(mocks.setThemeMode).toHaveBeenLastCalledWith('dark')
+
+    view.rerender(<SleepListPage />)
+    await user.click(screen.getByRole('button', { name: '当前主题：夜间模式。点击切换到跟随系统' }))
+    expect(mocks.setThemeMode).toHaveBeenLastCalledWith('auto')
   })
 })
