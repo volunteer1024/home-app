@@ -1,17 +1,19 @@
 import { startTransition, useDeferredValue, useRef, useState, type CSSProperties, type PointerEvent } from 'react'
 import {
-  Ellipsis,
+  Monitor,
+  Moon,
   PauseCircle,
   PlayCircle,
   Repeat1,
   Repeat2,
   Search,
   Shuffle,
+  Sun,
 } from 'lucide-react'
 
 import { useCatalogStore } from '@/features/sleep/stores/useCatalogStore'
 import { usePlayerStore } from '@/features/sleep/stores/usePlayerStore'
-import type { PlaybackMode } from '@/features/sleep/types'
+import type { PlaybackMode, ThemeMode } from '@/features/sleep/types'
 import { useSettingsStore } from '@/features/sleep/stores/useSettingsStore'
 import { zhCN } from '@/shared/copy/zh-CN'
 
@@ -28,6 +30,15 @@ const PLAYBACK_MODE_META: Record<
   shuffle: { label: '随机', nextMode: 'single', nextLabel: '单曲循环', Icon: Shuffle },
   single: { label: '单曲循环', nextMode: 'sequence', nextLabel: '顺序播放', Icon: Repeat1 },
   sequence: { label: '顺序播放', nextMode: 'shuffle', nextLabel: '随机', Icon: Repeat2 },
+}
+
+const THEME_MODE_META: Record<
+  ThemeMode,
+  { label: string; nextMode: ThemeMode; nextLabel: string; Icon: typeof Monitor }
+> = {
+  auto: { label: '跟随系统', nextMode: 'light', nextLabel: '白天模式', Icon: Monitor },
+  light: { label: '白天模式', nextMode: 'dark', nextLabel: '夜间模式', Icon: Sun },
+  dark: { label: '夜间模式', nextMode: 'auto', nextLabel: '跟随系统', Icon: Moon },
 }
 
 function formatDuration(totalSeconds: number) {
@@ -65,6 +76,8 @@ export function SleepListPage() {
   const currentSong = songs.find((song) => song.id === currentSongId) ?? null
   const modeMeta = PLAYBACK_MODE_META[playbackMode]
   const ModeIcon = modeMeta.Icon
+  const themeMeta = THEME_MODE_META[themeMode]
+  const ThemeIcon = themeMeta.Icon
   const currentSongStatus = playerStatus === 'playing' ? '正在播放' : playerStatus === 'paused' ? '已暂停' : '准备播放'
 
   async function handleSongAction(songId: string) {
@@ -146,10 +159,10 @@ export function SleepListPage() {
             <button
               type="button"
               className={styles.iconButton}
-              aria-label={themeMode === 'dark' ? zhCN.home.switchToLight : zhCN.home.switchToDark}
-              onClick={() => setThemeMode(themeMode === 'dark' ? 'light' : 'dark')}
+              aria-label={`当前主题：${themeMeta.label}。点击切换到${themeMeta.nextLabel}`}
+              onClick={() => setThemeMode(themeMeta.nextMode)}
             >
-              <Ellipsis size={28} />
+              <ThemeIcon size={28} />
             </button>
           </div>
 
