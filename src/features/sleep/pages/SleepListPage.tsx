@@ -1,4 +1,4 @@
-import { startTransition, useDeferredValue } from 'react'
+import { startTransition, useDeferredValue, useRef, useState, type CSSProperties, type PointerEvent } from 'react'
 import {
   Ellipsis,
   PauseCircle,
@@ -18,6 +18,8 @@ import { zhCN } from '@/shared/copy/zh-CN'
 import styles from './SleepListPage.module.less'
 
 const fallbackCover = '/media/sleep/v1/covers/moon-river.svg'
+const MINI_PLAYER_SWIPE_THRESHOLD = 56
+const MINI_PLAYER_MAX_DRAG = 24
 
 const PLAYBACK_MODE_META: Record<
   PlaybackMode,
@@ -42,6 +44,8 @@ export function SleepListPage() {
   const currentSongId = usePlayerStore((state) => state.currentSongId)
   const playerStatus = usePlayerStore((state) => state.status)
   const playSong = usePlayerStore((state) => state.playSong)
+  const playPrev = usePlayerStore((state) => state.playPrev)
+  const playNext = usePlayerStore((state) => state.playNext)
   const pause = usePlayerStore((state) => state.pause)
   const resumeCurrent = usePlayerStore((state) => state.resumeCurrent)
   const playbackMode = usePlayerStore((state) => state.playbackMode)
@@ -50,6 +54,9 @@ export function SleepListPage() {
   const themeMode = useSettingsStore((state) => state.themeMode)
   const setThemeMode = useSettingsStore((state) => state.setThemeMode)
   const deferredKeyword = useDeferredValue(searchKeyword)
+  const miniPlayerGestureRef = useRef<{ pointerId: number; x: number; y: number } | null>(null)
+  const [miniPlayerDragX, setMiniPlayerDragX] = useState(0)
+  const [isMiniPlayerDragging, setIsMiniPlayerDragging] = useState(false)
 
   const filteredSongs = deferredKeyword
     ? songs.filter((song) => searchIndex[song.id]?.includes(deferredKeyword))
@@ -76,6 +83,58 @@ export function SleepListPage() {
 
   function handlePlaybackModeChange() {
     setPlaybackMode(modeMeta.nextMode)
+  }
+
+  function resetMiniPlayerGesture() {
+    miniPlayerGestureRef.current = null
+    setMiniPlayerDragX(0)
+    setIsMiniPlayerDragging(false)
+  }
+
+  function handleMiniPlayerPointerDown(event: PointerEvent<HTMLElement>) {
+    if (event.target instanceof Element && event.target.closest('button')) {
+      return
+    }
+
+    miniPlayerGestureRef.current = {
+      pointerId: event.pointerId,
+      x: event.clientX,
+      y: event.clientY,
+    }
+    event.currentTarget.setPointerCapture?.(event.pointerId)
+    setIsMiniPlayerDragging(true)
+  }
+
+  function handleMiniPlayerPointerMove(event: PointerEvent<HTMLElement>) {
+    const gesture = miniPlayerGestureRef.current
+    if (!gesture || gesture.pointerId !== event.pointerId) {
+      return
+    }
+
+    const deltaX = event.clientX - gesture.x
+    const deltaY = event.clientY - gesture.y
+    if (Math.abs(deltaX) <= Math.abs(deltaY)) {
+      return
+    }
+
+    setMiniPlayerDragX(Math.max(-MINI_PLAYER_MAX_DRAG, Math.min(MINI_PLAYER_MAX_DRAG, deltaX)))
+  }
+
+  function handleMiniPlayerPointerUp(event: PointerEvent<HTMLElement>) {
+    const gesture = miniPlayerGestureRef.current
+    if (!gesture || gesture.pointerId !== event.pointerId) {
+      return
+    }
+
+    const deltaX = event.clientX - gesture.x
+    const deltaY = event.clientY - gesture.y
+    const isConfirmedSwipe = Math.abs(deltaX) >= MINI_PLAYER_SWIPE_THRESHOLD && Math.abs(deltaX) > Math.abs(deltaY)
+
+    resetMiniPlayerGesture()
+
+    if (isConfirmedSwipe) {
+      void (deltaX < 0 ? playPrev() : playNext())
+    }
   }
 
   return (
@@ -174,7 +233,15 @@ export function SleepListPage() {
         </main>
       </div>
       {currentSong ? (
-        <aside className={styles.miniPlayer} aria-label="当前播放">
+        <aside
+          className={`${styles.miniPlayer} ${isMiniPlayerDragging ? styles.miniPlayerDragging : ''}`}
+          aria-label="当前播放"
+          style={{ '--mini-player-drag-x': `${miniPlayerDragX}px` } as CSSProperties}
+          onPointerDown={handleMiniPlayerPointerDown}
+          onPointerMove={handleMiniPlayerPointerMove}
+          onPointerUp={handleMiniPlayerPointerUp}
+          onPointerCancel={resetMiniPlayerGesture}
+        >
           <div
             className={styles.miniCover}
             style={{ backgroundImage: `url("${currentSong.cover ?? fallbackCover}")` }}

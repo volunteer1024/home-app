@@ -255,6 +255,14 @@
   background: rgba(255, 255, 255, 0.96);
   box-shadow: 0 12px 28px rgba(15, 23, 42, 0.2);
   backdrop-filter: blur(14px);
+  touch-action: pan-y;
+  transform: translateX(var(--mini-player-drag-x, 0));
+  transition: transform 0.2s ease;
+  will-change: transform;
+}
+
+.miniPlayerDragging {
+  transition: none;
 }
 
 .miniCover {

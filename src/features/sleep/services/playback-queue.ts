@@ -26,11 +26,11 @@ export function getSequenceNextId(songs: SongItem[], currentSongId: string | nul
   }
 
   const currentIndex = songs.findIndex((song) => song.id === currentSongId)
-  if (currentIndex === -1 || currentIndex >= songs.length - 1) {
+  if (currentIndex === -1) {
     return null
   }
 
-  return songs[currentIndex + 1]?.id ?? null
+  return songs[(currentIndex + 1) % songs.length]?.id ?? null
 }
 
 export function getSequencePrevId(songs: SongItem[], currentSongId: string | null) {
@@ -43,11 +43,11 @@ export function getSequencePrevId(songs: SongItem[], currentSongId: string | nul
   }
 
   const currentIndex = songs.findIndex((song) => song.id === currentSongId)
-  if (currentIndex <= 0) {
+  if (currentIndex === -1) {
     return songs[0]?.id ?? null
   }
 
-  return songs[currentIndex - 1]?.id ?? null
+  return songs[(currentIndex - 1 + songs.length) % songs.length]?.id ?? null
 }
 
 export function getShuffleNextId(
@@ -69,11 +69,12 @@ export function getShuffleNextId(
   }
 
   const rebuiltQueue = buildShuffleQueue(songs, currentSongId)
+  const rebuiltCursor = rebuiltQueue.length > 1 ? 1 : 0
 
   return {
-    nextId: rebuiltQueue[0] ?? null,
+    nextId: rebuiltQueue[rebuiltCursor] ?? null,
     queue: rebuiltQueue,
-    cursor: 0,
+    cursor: rebuiltCursor,
   }
 }
 
@@ -82,7 +83,7 @@ export function getShufflePrevId(queue: string[], cursor: number) {
     return null
   }
 
-  const nextCursor = Math.max(0, cursor - 1)
+  const nextCursor = (cursor - 1 + queue.length) % queue.length
   return {
     prevId: queue[nextCursor] ?? null,
     cursor: nextCursor,

@@ -1,4 +1,4 @@
-import { cleanup, render, screen, within } from '@testing-library/react'
+import { cleanup, fireEvent, render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
@@ -6,6 +6,8 @@ const mocks = vi.hoisted(() => ({
   navigate: vi.fn(),
   pause: vi.fn(),
   playSong: vi.fn(),
+  playPrev: vi.fn(),
+  playNext: vi.fn(),
   resumeCurrent: vi.fn(),
   setPlaybackMode: vi.fn(),
   setSearchKeyword: vi.fn(),
@@ -45,6 +47,8 @@ const playerState = {
   playbackMode: 'shuffle',
   errorMessage: '',
   playSong: mocks.playSong,
+  playPrev: mocks.playPrev,
+  playNext: mocks.playNext,
   pause: mocks.pause,
   resumeCurrent: mocks.resumeCurrent,
   setPlaybackMode: mocks.setPlaybackMode,
@@ -75,6 +79,16 @@ vi.mock('@/features/sleep/stores/useSettingsStore', () => ({
 
 import { SleepListPage } from './SleepListPage'
 
+function firePointerEvent(
+  node: Element,
+  type: 'pointerdown' | 'pointermove' | 'pointerup',
+  { pointerId, clientX, clientY }: { pointerId: number; clientX: number; clientY: number },
+) {
+  const event = new MouseEvent(type, { bubbles: true, clientX, clientY })
+  Object.defineProperty(event, 'pointerId', { value: pointerId })
+  fireEvent(node, event)
+}
+
 describe('SleepListPage', () => {
   beforeEach(() => {
     playerState.currentSongId = song.id
@@ -85,6 +99,8 @@ describe('SleepListPage', () => {
     mocks.navigate.mockReset()
     mocks.pause.mockReset()
     mocks.playSong.mockReset()
+    mocks.playPrev.mockReset()
+    mocks.playNext.mockReset()
     mocks.resumeCurrent.mockReset()
     mocks.setPlaybackMode.mockReset()
   })
@@ -161,6 +177,54 @@ describe('SleepListPage', () => {
     await user.click(within(screen.getByLabelText('当前播放')).getByRole('button', { name: '暂停 Moon River' }))
 
     expect(mocks.pause).toHaveBeenCalledOnce()
+  })
+
+  it('switches to the previous song after a confirmed left swipe on the mini player', () => {
+    render(<SleepListPage />)
+    const miniPlayer = screen.getByLabelText('当前播放')
+
+    firePointerEvent(miniPlayer, 'pointerdown', { pointerId: 1, clientX: 160, clientY: 20 })
+    firePointerEvent(miniPlayer, 'pointermove', { pointerId: 1, clientX: 90, clientY: 20 })
+    firePointerEvent(miniPlayer, 'pointerup', { pointerId: 1, clientX: 90, clientY: 20 })
+
+    expect(mocks.playPrev).toHaveBeenCalledOnce()
+    expect(mocks.playNext).not.toHaveBeenCalled()
+  })
+
+  it('switches to the next song after a confirmed right swipe on the mini player', () => {
+    render(<SleepListPage />)
+    const miniPlayer = screen.getByLabelText('当前播放')
+
+    firePointerEvent(miniPlayer, 'pointerdown', { pointerId: 1, clientX: 90, clientY: 20 })
+    firePointerEvent(miniPlayer, 'pointerup', { pointerId: 1, clientX: 160, clientY: 20 })
+
+    expect(mocks.playNext).toHaveBeenCalledOnce()
+    expect(mocks.playPrev).not.toHaveBeenCalled()
+  })
+
+  it('does not switch songs after a short or vertical mini-player gesture', () => {
+    render(<SleepListPage />)
+    const miniPlayer = screen.getByLabelText('当前播放')
+
+    firePointerEvent(miniPlayer, 'pointerdown', { pointerId: 1, clientX: 100, clientY: 20 })
+    firePointerEvent(miniPlayer, 'pointerup', { pointerId: 1, clientX: 140, clientY: 20 })
+    firePointerEvent(miniPlayer, 'pointerdown', { pointerId: 2, clientX: 100, clientY: 20 })
+    firePointerEvent(miniPlayer, 'pointerup', { pointerId: 2, clientX: 170, clientY: 120 })
+
+    expect(mocks.playNext).not.toHaveBeenCalled()
+    expect(mocks.playPrev).not.toHaveBeenCalled()
+  })
+
+  it('keeps pointer gestures starting from the play button out of song navigation', () => {
+    render(<SleepListPage />)
+    const miniPlayer = screen.getByLabelText('当前播放')
+    const playButton = within(miniPlayer).getByRole('button', { name: '暂停 Moon River' })
+
+    firePointerEvent(playButton, 'pointerdown', { pointerId: 1, clientX: 160, clientY: 20 })
+    firePointerEvent(playButton, 'pointerup', { pointerId: 1, clientX: 90, clientY: 20 })
+
+    expect(mocks.playNext).not.toHaveBeenCalled()
+    expect(mocks.playPrev).not.toHaveBeenCalled()
   })
 
   it('cycles the playback mode through shuffle, single repeat, and sequence', async () => {
