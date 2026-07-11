@@ -1,5 +1,6 @@
 .page {
   min-height: 100dvh;
+  padding-bottom: calc(104px + env(safe-area-inset-bottom, 0px));
   background: #f6f8f8;
   color: #0f172a;
   font-family: 'Avenir Next', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
@@ -112,7 +113,7 @@
   font-weight: 500;
 }
 
-.shuffleButton {
+.modeButton {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -125,81 +126,15 @@
   cursor: pointer;
 }
 
-.featuredCard {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  width: 100%;
-  padding: 16px;
-  border: 2px solid rgba(19, 236, 200, 0.2);
-  border-radius: 16px;
-  background: rgba(19, 236, 200, 0.1);
-  color: inherit;
-  text-align: left;
-  cursor: pointer;
-}
-
-.featuredCoverWrap {
-  position: relative;
-  flex-shrink: 0;
-  width: 80px;
-  height: 80px;
-}
-
-.featuredCover,
 .songCover {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
 }
 
-.featuredCover {
-  width: 100%;
-  height: 100%;
-  border-radius: 12px;
-  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.16);
-}
-
-.featuredOverlay {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 12px;
-  background: rgba(0, 0, 0, 0.2);
-  color: #ffffff;
-}
-
-.featuredContent {
-  min-width: 0;
-  flex: 1;
-}
-
-.featuredTitle,
 .songTitle,
 .songMeta {
   margin: 0;
-}
-
-.featuredTitle {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  font-size: 1.25rem;
-  font-weight: 700;
-}
-
-.featuredMeta {
-  margin: 4px 0 0;
-  color: #13ecc8;
-  font-size: 1.125rem;
-  font-weight: 500;
-}
-
-.featuredSignal {
-  display: inline-flex;
-  color: #13ecc8;
 }
 
 .songList {
@@ -219,6 +154,11 @@
 
 .songRow:hover {
   background: #f8fafc;
+}
+
+.songRowActive {
+  border-color: rgba(19, 236, 200, 0.45);
+  background: rgba(19, 236, 200, 0.1);
 }
 
 .songMain {
@@ -297,6 +237,74 @@
   font-size: 0.9375rem;
 }
 
+.miniPlayer {
+  position: fixed;
+  right: max(12px, env(safe-area-inset-right, 0px));
+  bottom: max(12px, env(safe-area-inset-bottom, 0px));
+  left: max(12px, env(safe-area-inset-left, 0px));
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: min(calc(100% - 24px), 27rem);
+  min-height: 80px;
+  margin: 0 auto;
+  padding: 12px;
+  border: 1px solid rgba(19, 236, 200, 0.35);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.2);
+  backdrop-filter: blur(14px);
+}
+
+.miniCover {
+  width: 52px;
+  height: 52px;
+  flex: 0 0 auto;
+  border-radius: 12px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.miniContent {
+  min-width: 0;
+  flex: 1;
+}
+
+.miniTitle,
+.miniMeta {
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.miniTitle {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.miniMeta {
+  margin-top: 2px;
+  color: #13ecc8;
+  font-size: 0.875rem;
+}
+
+.miniAction {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: #13ecc8;
+  color: #0f172a;
+  cursor: pointer;
+}
+
 html[data-theme='dark'] {
   .page {
     background: #10221f;
@@ -322,13 +330,13 @@ html[data-theme='dark'] {
     color: #94a3b8;
   }
 
-  .featuredCard {
-    border-color: rgba(19, 236, 200, 0.24);
-    background: rgba(19, 236, 200, 0.12);
-  }
-
   .songRow:hover {
     background: rgba(30, 41, 59, 0.5);
+  }
+
+  .songRowActive {
+    border-color: rgba(19, 236, 200, 0.38);
+    background: rgba(19, 236, 200, 0.12);
   }
 
   .songTitle {
@@ -346,6 +354,11 @@ html[data-theme='dark'] {
   .error {
     background: rgba(127, 29, 29, 0.34);
     color: #fecaca;
+  }
+
+  .miniPlayer {
+    background: rgba(15, 23, 42, 0.96);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.34);
   }
 
 }

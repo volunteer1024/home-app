@@ -1,21 +1,32 @@
 import { startTransition, useDeferredValue } from 'react'
 import {
-  AudioLines,
   Ellipsis,
   PauseCircle,
   PlayCircle,
+  Repeat1,
+  Repeat2,
   Search,
   Shuffle,
 } from 'lucide-react'
 
 import { useCatalogStore } from '@/features/sleep/stores/useCatalogStore'
 import { usePlayerStore } from '@/features/sleep/stores/usePlayerStore'
+import type { PlaybackMode } from '@/features/sleep/types'
 import { useSettingsStore } from '@/features/sleep/stores/useSettingsStore'
 import { zhCN } from '@/shared/copy/zh-CN'
 
 import styles from './SleepListPage.module.less'
 
 const fallbackCover = '/media/sleep/v1/covers/moon-river.svg'
+
+const PLAYBACK_MODE_META: Record<
+  PlaybackMode,
+  { label: string; nextMode: PlaybackMode; nextLabel: string; Icon: typeof Shuffle }
+> = {
+  shuffle: { label: '随机', nextMode: 'single', nextLabel: '单曲循环', Icon: Shuffle },
+  single: { label: '单曲循环', nextMode: 'sequence', nextLabel: '顺序播放', Icon: Repeat1 },
+  sequence: { label: '顺序播放', nextMode: 'shuffle', nextLabel: '随机', Icon: Repeat2 },
+}
 
 function formatDuration(totalSeconds: number) {
   const minutes = Math.floor(totalSeconds / 60)
@@ -33,6 +44,8 @@ export function SleepListPage() {
   const playSong = usePlayerStore((state) => state.playSong)
   const pause = usePlayerStore((state) => state.pause)
   const resumeCurrent = usePlayerStore((state) => state.resumeCurrent)
+  const playbackMode = usePlayerStore((state) => state.playbackMode)
+  const setPlaybackMode = usePlayerStore((state) => state.setPlaybackMode)
   const errorMessage = usePlayerStore((state) => state.errorMessage)
   const themeMode = useSettingsStore((state) => state.themeMode)
   const setThemeMode = useSettingsStore((state) => state.setThemeMode)
@@ -42,24 +55,10 @@ export function SleepListPage() {
     ? songs.filter((song) => searchIndex[song.id]?.includes(deferredKeyword))
     : songs
 
-  const featuredSong =
-    filteredSongs.find((song) => song.id === currentSongId) ??
-    songs.find((song) => song.id === currentSongId) ??
-    filteredSongs[0] ??
-    songs[0] ??
-    null
-
-  const listSongs = featuredSong ? filteredSongs.filter((song) => song.id !== featuredSong.id) : filteredSongs
-  const isCurrentFeatured = featuredSong?.id === currentSongId
-  const isPlayingFeatured = isCurrentFeatured && playerStatus === 'playing'
-  const isPausedFeatured = isCurrentFeatured && playerStatus === 'paused'
-  const featuredSubtitle = isPlayingFeatured
-    ? `正在播放 · ${featuredSong?.tags[0] ?? '自然音效'}`
-    : isPausedFeatured
-      ? `已暂停 · ${featuredSong?.tags[0] ?? '自然音效'}`
-    : featuredSong
-      ? `${featuredSong.tags[0] ?? '自然音效'} · ${formatDuration(featuredSong.durationSec)}`
-      : '暂时还没有可播放的内容'
+  const currentSong = songs.find((song) => song.id === currentSongId) ?? null
+  const modeMeta = PLAYBACK_MODE_META[playbackMode]
+  const ModeIcon = modeMeta.Icon
+  const currentSongStatus = playerStatus === 'playing' ? '正在播放' : playerStatus === 'paused' ? '已暂停' : '准备播放'
 
   async function handleSongAction(songId: string) {
     if (songId === currentSongId && playerStatus === 'playing') {
@@ -75,14 +74,8 @@ export function SleepListPage() {
     await playSong(songId, 0)
   }
 
-  async function handleShufflePlay() {
-    const pool = filteredSongs.length ? filteredSongs : songs
-    if (!pool.length) {
-      return
-    }
-
-    const nextSong = pool[Math.floor(Math.random() * pool.length)]
-    await playSong(nextSong.id, 0)
+  function handlePlaybackModeChange() {
+    setPlaybackMode(modeMeta.nextMode)
   }
 
   return (
@@ -124,43 +117,25 @@ export function SleepListPage() {
             <p className={styles.counter}>
               {deferredKeyword ? '搜索结果' : '全部歌曲'} ({filteredSongs.length})
             </p>
-            <button type="button" className={styles.shuffleButton} onClick={() => void handleShufflePlay()}>
-              <Shuffle size={20} />
-              随机播放
+            <button
+              type="button"
+              className={styles.modeButton}
+              aria-label={`当前模式：${modeMeta.label}。点击切换到${modeMeta.nextLabel}`}
+              onClick={handlePlaybackModeChange}
+            >
+              <ModeIcon size={20} />
+              {modeMeta.label}
             </button>
           </div>
 
-          {featuredSong ? (
-            <button
-              type="button"
-              className={styles.featuredCard}
-              onClick={() => void handleSongAction(featuredSong.id)}
-            >
-              <div className={styles.featuredCoverWrap}>
-                <div
-                  className={styles.featuredCover}
-                  style={{ backgroundImage: `url("${featuredSong.cover ?? fallbackCover}")` }}
-                />
-                <div className={styles.featuredOverlay}>
-                  {isPlayingFeatured ? <PauseCircle size={44} /> : <PlayCircle size={44} />}
-                </div>
-              </div>
-
-              <div className={styles.featuredContent}>
-                <p className={styles.featuredTitle}>{featuredSong.title}</p>
-                <p className={styles.featuredMeta}>{featuredSubtitle}</p>
-              </div>
-
-              <div className={styles.featuredSignal}>
-                <AudioLines size={28} />
-              </div>
-            </button>
-          ) : null}
-
           <div className={styles.songList}>
-            {listSongs.length ? (
-              listSongs.map((song) => (
-                <div key={song.id} className={styles.songRow}>
+            {filteredSongs.length ? (
+              filteredSongs.map((song) => {
+                const isCurrentSong = song.id === currentSongId
+                const isPlayingSong = isCurrentSong && playerStatus === 'playing'
+
+                return (
+                <div key={song.id} className={`${styles.songRow} ${isCurrentSong ? styles.songRowActive : ''}`}>
                   <button type="button" className={styles.songMain} onClick={() => void handleSongAction(song.id)}>
                     <div
                       className={styles.songCover}
@@ -169,7 +144,9 @@ export function SleepListPage() {
                     <div className={styles.songText}>
                       <p className={styles.songTitle}>{song.title}</p>
                       <p className={styles.songMeta}>
-                        {(song.tags[0] ?? '自然音') + ' · ' + formatDuration(song.durationSec)}
+                        {isCurrentSong
+                          ? `${currentSongStatus} · ${song.tags[0] ?? '自然音'}`
+                          : (song.tags[0] ?? '自然音') + ' · ' + formatDuration(song.durationSec)}
                       </p>
                     </div>
                   </button>
@@ -177,17 +154,18 @@ export function SleepListPage() {
                   <button
                     type="button"
                     className={styles.songAction}
-                    aria-label={`${song.id === currentSongId && playerStatus === 'playing' ? '暂停' : '播放'} ${song.title}`}
+                    aria-label={`${isPlayingSong ? '暂停' : '播放'} ${song.title}`}
                     onClick={() => void handleSongAction(song.id)}
                   >
-                    {song.id === currentSongId && playerStatus === 'playing' ? (
+                    {isPlayingSong ? (
                       <PauseCircle size={34} />
                     ) : (
                       <PlayCircle size={34} />
                     )}
                   </button>
                 </div>
-              ))
+                )
+              })
             ) : (
               <div className={styles.empty}>{zhCN.sleep.noSong}</div>
             )}
@@ -195,6 +173,27 @@ export function SleepListPage() {
           {errorMessage ? <p className={styles.error}>{errorMessage}</p> : null}
         </main>
       </div>
+      {currentSong ? (
+        <aside className={styles.miniPlayer} aria-label="当前播放">
+          <div
+            className={styles.miniCover}
+            style={{ backgroundImage: `url("${currentSong.cover ?? fallbackCover}")` }}
+            aria-hidden="true"
+          />
+          <div className={styles.miniContent}>
+            <p className={styles.miniTitle}>{currentSong.title}</p>
+            <p className={styles.miniMeta}>{currentSongStatus}</p>
+          </div>
+          <button
+            type="button"
+            className={styles.miniAction}
+            aria-label={`${playerStatus === 'playing' ? '暂停' : '播放'} ${currentSong.title}`}
+            onClick={() => void handleSongAction(currentSong.id)}
+          >
+            {playerStatus === 'playing' ? <PauseCircle size={34} /> : <PlayCircle size={34} />}
+          </button>
+        </aside>
+      ) : null}
     </section>
   )
 }
