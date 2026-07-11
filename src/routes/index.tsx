@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 
-import { HomePage } from '@/features/home/pages/HomePage'
+import { redirectToMusicList } from '@/routes/-redirectToMusicList'
 
 export const Route = createFileRoute('/')({
-  component: HomePage,
+  beforeLoad: redirectToMusicList,
 })

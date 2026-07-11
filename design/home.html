@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>家庭工具箱 - 您的生活助手</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#13ecc8",
+                        "background-light": "#f6f8f8",
+                        "background-dark": "#10221f",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Lexend', "Microsoft YaHei", sans-serif;
+        }
+    </style>
+    <style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
+
+<body
+    class="bg-background-light dark:bg-background-dark min-h-screen flex flex-col font-display text-slate-900 dark:text-slate-100">
+    <header
+        class="sticky top-0 z-50 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-primary/10">
+        <div class="flex items-center justify-between px-6 py-4 max-w-2xl mx-auto w-full">
+            <div class="flex items-center gap-3">
+                <div class="bg-primary/20 p-2 rounded-lg text-primary">
+                    <span class="material-symbols-outlined text-2xl">home_app_logo</span>
+                </div>
+                <h1 class="text-xl font-bold tracking-tight">家庭工具箱</h1>
+            </div>
+            <button class="size-10 flex items-center justify-center rounded-full bg-slate-200/50 dark:bg-slate-800/50">
+                <span class="material-symbols-outlined">notifications</span>
+            </button>
+        </div>
+    </header>
+    <main class="flex-1 w-full max-w-2xl mx-auto px-4 py-6 space-y-8">
+        <section>
+            <h2 class="text-3xl font-bold px-2 mb-6">常用家庭工具</h2>
+            <div class="space-y-6">
+                <div
+                    class="group relative overflow-hidden rounded-xl bg-white dark:bg-slate-900 shadow-xl shadow-primary/5 transition-all hover:shadow-primary/10 border border-primary/5">
+                    <div class="w-full h-48 bg-cover bg-center"
+                        data-alt="Cozy interior with soft lighting and a speaker"
+                        style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDZWNqgiRMi03Wprvr6XNczqzD7Qh2YbveGhYzgLcLw97Ci8OIOFAC48xSP18aMWENqRG95g3iwPhAW2Na3LZUNyOVs0GP_sXOFYnFuFhNtJTwEzWx5Rbc3kEpEF_oMLbIpSuNEmfMoEpAzP8L-bji2NTA9Ci_Nsdc2NBRGpwbcAWlSMe_hP653ppo3UwKwiZaKIf-J0S3Fa9grJV8DsMBNdMdkhBTS1YmWiFAAwGPPsN700AtMNvcQw3JmRmensabbCGa413bzWLI')">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-2">
+                            <span
+                                class="text-xs font-bold uppercase tracking-wider text-primary bg-primary/10 px-2 py-1 rounded">最常使用</span>
+                            <span class="flex items-center gap-1 text-slate-500 dark:text-slate-400 text-sm">
+                                <span class="material-symbols-outlined text-sm">schedule</span>
+                                刚刚播放
+                            </span>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-2">哄睡歌曲</h3>
+                        <p class="text-slate-600 dark:text-slate-400 mb-6">轻柔的旋律，陪伴家人进入甜美的梦乡。</p>
+                        <div
+                            class="flex items-center justify-between gap-4 p-4 rounded-xl bg-background-light dark:bg-slate-800">
+                            <div class="flex flex-col">
+                                <span class="text-sm text-slate-500">上次播放</span>
+                                <span class="font-medium">森林里的摇篮曲</span>
+                            </div>
+                            <button
+                                class="flex items-center gap-2 bg-primary text-slate-900 px-6 py-3 rounded-full font-bold shadow-lg shadow-primary/20 active:scale-95 transition-transform">
+                                <span class="material-symbols-outlined">play_circle</span>
+                                <span>立即播放</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div
+                    class="group relative overflow-hidden rounded-xl bg-white/60 dark:bg-slate-900/60 border-2 border-dashed border-slate-300 dark:border-slate-700">
+                    <div class="w-full h-48 bg-cover bg-center grayscale opacity-50"
+                        data-alt="Printer and documents on a desk"
+                        style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB4Nbk6vzwQcy8g-b71NW8uaCDF6ClR9ZKpharquHy4wqVz_zIe-kwfhlfGFceERRbLkGmmufHl-eq6iM1thg6Ns76UjhRH95i2HW_wIthO1FvMMiDLOCA-cW0ZqUAzADtdJlefBggmAhUYZTOp5yedkjXlVnazl0UEN2dwEkxEi15MOY_QwAMxQvYuv-PSwb9JYqb-N-T94yS27VfNUH8lym3y04csbjwot6n-nFKOqIuKjftxj3Hb7rZmPB-6Q_1ye7NcCuUh0XA')">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-2">
+                            <span
+                                class="text-xs font-bold uppercase tracking-wider text-slate-500 bg-slate-200 dark:bg-slate-800 px-2 py-1 rounded">建设中</span>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-2 text-slate-500">发票打印</h3>
+                        <p class="text-slate-400 mb-6">便捷的发票管理与打印工具，即将上线。</p>
+                        <div class="flex items-center justify-center p-4 rounded-xl bg-slate-100 dark:bg-slate-800/40">
+                            <span class="text-slate-400 font-medium italic">敬请期待，正在努力开发中...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="grid grid-cols-2 gap-4">
+            <div
+                class="p-6 rounded-xl bg-white dark:bg-slate-900 border border-primary/5 flex flex-col items-center text-center gap-3">
+                <div class="size-12 rounded-full bg-primary/10 text-primary flex items-center justify-center">
+                    <span class="material-symbols-outlined">kitchen</span>
+                </div>
+                <span class="font-bold">食材清单</span>
+            </div>
+            <div
+                class="p-6 rounded-xl bg-white dark:bg-slate-900 border border-primary/5 flex flex-col items-center text-center gap-3">
+                <div class="size-12 rounded-full bg-primary/10 text-primary flex items-center justify-center">
+                    <span class="material-symbols-outlined">electric_bolt</span>
+                </div>
+                <span class="font-bold">电费缴存</span>
+            </div>
+        </section>
+    </main>
+    <nav
+        class="sticky bottom-0 z-50 w-full bg-white dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 pb-safe">
+        <div class="max-w-2xl mx-auto flex items-center justify-around px-2 py-2">
+            <a class="flex flex-col items-center gap-1 p-2 text-primary" href="#">
+                <span class="material-symbols-outlined fill-[1]">home</span>
+                <span class="text-xs font-medium">首页</span>
+            </a>
+            <a class="flex flex-col items-center gap-1 p-2 text-slate-500 hover:text-primary transition-colors"
+                href="#">
+                <span class="material-symbols-outlined">explore</span>
+                <span class="text-xs font-medium">发现</span>
+            </a>
+            <a class="flex flex-col items-center gap-1 p-2 text-slate-500 hover:text-primary transition-colors"
+                href="#">
+                <span class="material-symbols-outlined">person</span>
+                <span class="text-xs font-medium">我的</span>
+            </a>
+        </div>
+    </nav>
+</body>
+
+</html>

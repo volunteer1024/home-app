@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 
-import { SleepPlayerPage } from '@/features/sleep/pages/SleepPlayerPage'
+import { redirectToMusicList } from '@/routes/-redirectToMusicList'
 
 export const Route = createFileRoute('/sleep/player')({
-  component: SleepPlayerPage,
+  beforeLoad: redirectToMusicList,
 })

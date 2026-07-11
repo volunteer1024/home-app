@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#13ecc8",
+                        "background-light": "#f6f8f8",
+                        "background-dark": "#10221f",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .active-icon {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+    <style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
+    <div class="max-w-md mx-auto bg-white dark:bg-slate-900 min-h-screen flex flex-col shadow-xl">
+        <header class="sticky top-0 z-10 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md px-4 pt-6 pb-4">
+            <div class="flex items-center justify-between mb-6">
+                <button class="p-2 hover:bg-primary/10 rounded-full transition-colors">
+                    <span class="material-symbols-outlined text-3xl">arrow_back</span>
+                </button>
+                <h1 class="text-2xl font-bold tracking-tight">助眠音乐</h1>
+                <button class="p-2 hover:bg-primary/10 rounded-full transition-colors">
+                    <span class="material-symbols-outlined text-3xl">more_horiz</span>
+                </button>
+            </div>
+            <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <span class="material-symbols-outlined text-slate-400 text-2xl">search</span>
+                </div>
+                <input
+                    class="block w-full pl-12 pr-4 py-4 bg-slate-100 dark:bg-slate-800 border-none rounded-xl text-lg focus:ring-2 focus:ring-primary placeholder:text-slate-400"
+                    placeholder="搜索歌曲或艺人" type="text" />
+            </div>
+        </header>
+        <main class="flex-1 px-4 py-2 space-y-3">
+            <div class="flex items-center justify-between py-2 px-1">
+                <p class="text-slate-500 dark:text-slate-400 font-medium text-lg">全部歌曲 (24)</p>
+                <button class="flex items-center gap-1 text-primary font-semibold text-lg">
+                    <span class="material-symbols-outlined">shuffle</span>
+                    随机播放
+                </button>
+            </div>
+            <div class="flex items-center gap-5 p-4 bg-primary/10 border-2 border-primary/20 rounded-xl">
+                <div class="relative size-20 shrink-0">
+                    <div class="w-full h-full rounded-lg bg-cover bg-center shadow-md"
+                        data-alt="Quiet forest with soft morning sunlight"
+                        style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDtM18iM9E1YZ4e5y_g_6NczGvhxE7xj9bldVro57wdrsqC7G2Ov_YVabdHnzM9syhlojl3YhOEK-1yIyIuTgn8MpCqgssR6htE88_Zr-ADufjFKgnkknaCshAGnt9hMqfP2fQBPb4rMhxz9K53LKnCNhwdDKRfbrV8MTdWYHzSBagu4iYSncyKOLtjlIakWUBB-KglkPyi4kki5zYpBoVw0BY87n9d6F2aJTiLp2E2ybzRkjFWV1mdB2Y568nk_VrA_Izv07Ohw1U')">
+                    </div>
+                    <div class="absolute inset-0 flex items-center justify-center bg-black/20 rounded-lg">
+                        <span class="material-symbols-outlined text-white text-4xl active-icon">pause_circle</span>
+                    </div>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <p class="text-xl font-bold text-slate-900 dark:text-slate-100 truncate">林间晨露</p>
+                    <p class="text-primary font-medium text-lg">正在播放 · 自然音效</p>
+                </div>
+                <div class="flex gap-2">
+                    <span class="material-symbols-outlined text-primary text-3xl">equalizer</span>
+                </div>
+            </div>
+            <div
+                class="flex items-center gap-5 p-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-xl transition-colors cursor-pointer border border-transparent">
+                <div class="size-20 shrink-0 rounded-lg bg-cover bg-center bg-slate-200"
+                    data-alt="Deep green pine forest in fog"
+                    style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAIw3qcdRhGNUL9q6yfZMYeJF_nf9uoMeYftDeuxoQnyIvWB-_xXbnkDLUkFa1EvIIcsW8ErVPis3nmx4nsT5etMVO0Nuia9vXT12GzMxFei_colvlrg850cj4F-xsZjBPisAtq_j9GG7DlvcH5EKgr3bENUDh87sFlVuqGtPeEJr0pQldXzHhn0h7mgH74Dr0biPCSJmn0QQNH-EjBOGLJqX-Jt3PNHqSwvr1CrL3WTIg2YDjTTSn42liFttAyNynK6IoWxE8pz8M')">
+                </div>
+                <div class="flex-1 min-w-0">
+                    <p class="text-xl font-bold text-slate-800 dark:text-slate-200 truncate">深山钟声</p>
+                    <p class="text-slate-500 dark:text-slate-400 text-lg">冥想引导 · 12:45</p>
+                </div>
+                <button class="size-12 flex items-center justify-center text-slate-400 hover:text-primary">
+                    <span class="material-symbols-outlined text-4xl">play_circle</span>
+                </button>
+            </div>
+            <div
+                class="flex items-center gap-5 p-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-xl transition-colors cursor-pointer border border-transparent">
+                <div class="size-20 shrink-0 rounded-lg bg-cover bg-center bg-slate-200"
+                    data-alt="Calm ocean waves at sunset"
+                    style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDziRVStCwYqBU7TXpCPXnbyeg8N1fxqJhtBe5etzrYsvLIoC0-jguIbmqOpDEls4_3K4df3Edcs8Ml3Dm8cyctJpuQyac-qK2-znwo3iqKjejwEkpMOJZGdKJ1HVcFQWl1TkPHxNf_D1gQlfLNyBDjIBMoe0f2FArWH9cCokuf6tiA0IP2xpMvxzSZHh6VMcxvdu_5YsY4cMxtc3zxHPegymWigqbVwoYmbvzsQkAU4aOJCngT52YUIX3m7v2quuEmBTFhbcDJza4')">
+                </div>
+                <div class="flex-1 min-w-0">
+                    <p class="text-xl font-bold text-slate-800 dark:text-slate-200 truncate">海浪拍岸</p>
+                    <p class="text-slate-500 dark:text-slate-400 text-lg">白噪音 · 08:20</p>
+                </div>
+                <button class="size-12 flex items-center justify-center text-slate-400 hover:text-primary">
+                    <span class="material-symbols-outlined text-4xl">play_circle</span>
+                </button>
+            </div>
+            <div
+                class="flex items-center gap-5 p-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-xl transition-colors cursor-pointer border border-transparent">
+                <div class="size-20 shrink-0 rounded-lg bg-cover bg-center bg-slate-200"
+                    data-alt="Cozy fireplace with glowing embers"
+                    style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBqONMZU7MAfauiklp5KpkhGO2f9N5PRWspNrzLKE6dBYLi_gdDRwlhZ30_PjXq9E61yoJHzpaYGPXGzhSUvEU57LrafbWa0PFQE7yd39AC9DJMmOCVlPymHqdrnhw81KnMXFNjpQZ0DQpWU9fbyvphZz8483mdgaxLhmJKkNV7HZRCbrVrhDSkKkmqshsFmWFmSyiFDpsvQ8Dv-9sHS0jpv0wkXP0BN0VhhCDmVpa4P23WHxfSW5brV5tXQB8MAN34hue1mZUUjqA')">
+                </div>
+                <div class="flex-1 min-w-0">
+                    <p class="text-xl font-bold text-slate-800 dark:text-slate-200 truncate">壁炉暖火</p>
+                    <p class="text-slate-500 dark:text-slate-400 text-lg">环境音 · 15:00</p>
+                </div>
+                <button class="size-12 flex items-center justify-center text-slate-400 hover:text-primary">
+                    <span class="material-symbols-outlined text-4xl">play_circle</span>
+                </button>
+            </div>
+            <div
+                class="flex items-center gap-5 p-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-xl transition-colors cursor-pointer border border-transparent">
+                <div class="size-20 shrink-0 rounded-lg bg-cover bg-center bg-slate-200"
+                    data-alt="Raindrops on a window pane"
+                    style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCmgLL9PVad0004Ep8U0LLWm6x1YrjgybD9UVlRmt0h45g1o0J2LcgApfspatrb3LVIdQPqWetIuQyyfVqQoIrQeJotSEOMpQsKkr1QhMrw7oRZGiXMooED1HNrWR2OQkkvuJGQhMHY0Xq0nIug6zqONb5i1dB67ehRzwaMc1cuZSC1AyETdOLqyD0MAZQpvCwk_1Cuv5MiV5dgZr0EKNWbmmLXluCgnmttqqBU_gfxbT3lahN8siz1GOFD1lCVFWc6C3AxAfI2gpc')">
+                </div>
+                <div class="flex-1 min-w-0">
+                    <p class="text-xl font-bold text-slate-800 dark:text-slate-200 truncate">窗外小雨</p>
+                    <p class="text-slate-500 dark:text-slate-400 text-lg">自然音 · 10:30</p>
+                </div>
+                <button class="size-12 flex items-center justify-center text-slate-400 hover:text-primary">
+                    <span class="material-symbols-outlined text-4xl">play_circle</span>
+                </button>
+            </div>
+            <div class="h-24"></div>
+        </main>
+        <nav
+            class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-slate-100 dark:border-slate-800 flex items-center justify-around py-3 px-6 pb-8">
+            <a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+                <span class="material-symbols-outlined text-3xl">home</span>
+                <span class="text-sm font-medium">首页</span>
+            </a>
+            <a class="flex flex-col items-center gap-1 text-primary" href="#">
+                <span class="material-symbols-outlined text-3xl active-icon">music_note</span>
+                <span class="text-sm font-medium">音乐</span>
+            </a>
+            <a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+                <span class="material-symbols-outlined text-3xl">favorite</span>
+                <span class="text-sm font-medium">收藏</span>
+            </a>
+            <a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+                <span class="material-symbols-outlined text-3xl">person</span>
+                <span class="text-sm font-medium">我的</span>
+            </a>
+        </nav>
+    </div>
+</body>
+
+</html>

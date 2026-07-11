@@ -1,9 +1,7 @@
-import { createFileRoute, redirect } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'
+
+import { redirectToMusicList } from '@/routes/-redirectToMusicList'
 
 export const Route = createFileRoute('/sleep/')({
-  beforeLoad: () => {
-    throw redirect({
-      to: '/sleep/player',
-    })
-  },
+  beforeLoad: redirectToMusicList,
 })

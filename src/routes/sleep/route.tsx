@@ -1,7 +1,6 @@
 import { Outlet, createFileRoute } from '@tanstack/react-router'
 import { useEffect } from 'react'
 
-import { SleepLayout } from '@/features/sleep/pages/SleepLayout'
 import { useCatalogStore } from '@/features/sleep/stores/useCatalogStore'
 import { usePlayerStore } from '@/features/sleep/stores/usePlayerStore'
 import { useSettingsStore } from '@/features/sleep/stores/useSettingsStore'
@@ -46,11 +45,7 @@ function SleepRouteLayout() {
     return () => navigator.serviceWorker?.removeEventListener('message', onMessage)
   }, [])
 
-  return (
-    <SleepLayout>
-      <Outlet />
-    </SleepLayout>
-  )
+  return <Outlet />
 }
 
 export const Route = createFileRoute('/sleep')({
